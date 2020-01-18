@@ -1,0 +1,32 @@
+From 4150b7c1f586280bc76b5372334f4fb299c58f1b Mon Sep 17 00:00:00 2001
+From: David Lehman <dlehman@redhat.com>
+Date: Fri, 29 Mar 2019 16:59:22 -0400
+Subject: [PATCH 19/20] Update factory example to work w/ latest API.
+
+---
+ examples/factory.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/examples/factory.py b/examples/factory.py
+index e54c1bea..471ad30f 100644
+--- a/examples/factory.py
++++ b/examples/factory.py
+@@ -23,13 +23,13 @@ try:
+ 
+     # create an lv named data in a vg named testvg
+     device = b.factory_device(blivet.devicefactory.DEVICE_TYPE_LVM,
+-                              Size("50GiB"), disks=[disk1, disk2],
++                              size=Size("50GiB"), disks=[disk1, disk2],
+                               fstype="xfs", mountpoint="/data")
+     print(b.devicetree)
+ 
+     # change testvg to have an md RAID1 pv instead of partition pvs
+     device = b.factory_device(blivet.devicefactory.DEVICE_TYPE_LVM,
+-                              Size("50GiB"), disks=[disk1, disk2],
++                              size=Size("50GiB"), disks=[disk1, disk2],
+                               fstype="xfs", mountpoint="/data",
+                               container_raid_level="raid1",
+                               device=device)
+-- 
+2.20.1
+

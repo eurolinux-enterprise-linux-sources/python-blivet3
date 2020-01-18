@@ -1,0 +1,32 @@
+From 639583b86750c3e17e68be781315ee262fd293d5 Mon Sep 17 00:00:00 2001
+From: David Lehman <dlehman@redhat.com>
+Date: Mon, 25 Mar 2019 15:26:25 -0400
+Subject: [PATCH 8/8] Remove Obsoletes for compat package.
+
+---
+ python-blivet3.spec | 9 ---------
+ 1 file changed, 9 deletions(-)
+
+diff --git a/python-blivet3.spec b/python-blivet3.spec
+index 883ba9b8..cb54a4cd 100644
+--- a/python-blivet3.spec
++++ b/python-blivet3.spec
+@@ -92,15 +92,6 @@ Requires: python3-gobject-base
+ Requires: systemd-udev
+ Requires: %{realname}-data = %{epoch}:%{version}-%{release}
+ 
+-Obsoletes: blivet-data < 1:2.0.0
+-
+-%if %{without python2}
+-Obsoletes: python2-blivet < 1:2.0.2-2
+-Obsoletes: python-blivet < 1:2.0.2-2
+-%else
+-Obsoletes: python-blivet < 1:2.0.0
+-%endif
+-
+ %description -n python3-%{realname}
+ The python3-%{realname} is a python3 package for examining and modifying storage
+ configuration.
+-- 
+2.17.2
+

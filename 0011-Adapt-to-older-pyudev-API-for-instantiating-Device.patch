@@ -1,0 +1,42 @@
+From 4ae6552726c2ee7a28ae97db0d3e84b6ec26a594 Mon Sep 17 00:00:00 2001
+From: David Lehman <dlehman@redhat.com>
+Date: Fri, 29 Mar 2019 15:38:12 -0400
+Subject: [PATCH 13/20] Adapt to older pyudev API for instantiating Device.
+
+---
+ blivet3/devices/storage.py | 2 +-
+ blivet3/udev.py            | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/blivet3/devices/storage.py b/blivet3/devices/storage.py
+index df4e9943..c2ec20fe 100644
+--- a/blivet3/devices/storage.py
++++ b/blivet3/devices/storage.py
+@@ -294,7 +294,7 @@ class StorageDevice(Device):
+             raise errors.DeviceError("device has not been created", self.name)
+ 
+         try:
+-            udev_device = pyudev.Devices.from_device_file(udev.global_udev,
++            udev_device = pyudev.device.Device.from_device_file(udev.global_udev,
+                                                           self.path)
+ 
+         # from_device_file() does not process exceptions but just propagates
+diff --git a/blivet3/udev.py b/blivet3/udev.py
+index 227399bc..7c7e8f32 100644
+--- a/blivet3/udev.py
++++ b/blivet3/udev.py
+@@ -63,9 +63,9 @@ def device_to_dict(device):
+ def get_device(sysfs_path=None, device_node=None):
+     try:
+         if sysfs_path is not None:
+-            device = pyudev.Devices.from_sys_path(global_udev, sysfs_path)
++            device = pyudev.device.Device.from_sys_path(global_udev, sysfs_path)
+         elif device_node is not None:
+-            device = pyudev.Devices.from_device_file(global_udev, device_node)
++            device = pyudev.device.Device.from_device_file(global_udev, device_node)
+     except pyudev.DeviceNotFoundError as e:
+         log.error(e)
+         result = None
+-- 
+2.20.1
+

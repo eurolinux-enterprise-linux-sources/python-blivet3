@@ -1,0 +1,102 @@
+From cb6de5392b6b9123c39b08cc067dd824eb77bd31 Mon Sep 17 00:00:00 2001
+From: David Lehman <dlehman@redhat.com>
+Date: Mon, 25 Mar 2019 14:33:56 -0400
+Subject: [PATCH 4/8] Adjust Makefile et al to renamed package.
+
+---
+ MANIFEST.in         |  2 +-
+ Makefile            | 12 ++++++------
+ po/Makefile         |  2 +-
+ scripts/makeupdates |  4 ++--
+ setup.py            |  8 ++++----
+ 5 files changed, 14 insertions(+), 14 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 76817278..328e17c8 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,8 +1,8 @@
+ PYTHON?=python3
+ PKG_INSTALL?=dnf
+ 
+-PKGNAME=blivet
+-SPECFILE=python-blivet.spec
++PKGNAME=blivet3
++SPECFILE=python-blivet3.spec
+ VERSION=$(shell $(PYTHON) setup.py --version)
+ RPMVERSION=$(shell rpmspec -q --queryformat "%{version}\n" $(SPECFILE) | head -1)
+ RPMRELEASE=$(shell rpmspec --undefine '%dist' -q --queryformat "%{release}\n" $(SPECFILE) | head -1)
+@@ -51,8 +51,8 @@ test:
+ coverage:
+ 	@echo "*** Running unittests with $(COVERAGE) for $(PYTHON) ***"
+ 	PYTHONPATH=.:tests/ $(COVERAGE) run --branch -m unittest discover -v -s tests/ -p '*_test.py'
+-	$(COVERAGE) report --include="blivet/*" --show-missing
+-	$(COVERAGE) report --include="blivet/*" > coverage-report.log
++	$(COVERAGE) report --include="blivet3/*" --show-missing
++	$(COVERAGE) report --include="blivet3/*" > coverage-report.log
+ 
+ pylint:
+ 	@echo "*** Running pylint ***"
+@@ -69,7 +69,7 @@ pep8:
+ 	else \
+ 		echo "You need to install pycodestyle/pep8 to run this check."; exit 1; \
+ 	fi ; \
+-	$$pep8 --ignore=E501,E402,E731,W504 blivet/ tests/ examples/
++	$$pep8 --ignore=E501,E402,E731,W504 blivet3/ tests/ examples/
+ 
+ canary: po-fallback
+ 	@echo "*** Running translation-canary tests ***"
+@@ -83,7 +83,7 @@ check:
+ 	exit $$status
+ 
+ clean:
+-	-rm *.tar.gz blivet/*.pyc blivet/*/*.pyc ChangeLog
++	-rm *.tar.gz blivet3/*.pyc blivet3/*/*.pyc ChangeLog
+ 	$(MAKE) -C po clean
+ 	$(PYTHON) setup.py -q clean --all
+ 
+diff --git a/po/Makefile b/po/Makefile
+index bbc6b5e8..2d521b0d 100644
+--- a/po/Makefile
++++ b/po/Makefile
+@@ -24,7 +24,7 @@ MSGFMT		= msgfmt --statistics --verbose
+ # What do we need to do
+ POFILES		= $(wildcard *.po)
+ MOFILES		= $(patsubst %.po,%.mo,$(POFILES))
+-PYSRC		= $(wildcard ../blivet/*.py ../blivet/*/*.py)
++PYSRC		= $(wildcard ../blivet3/*.py ../blivet3/*/*.py)
+ SRCFILES 	= $(PYSRC)
+ 
+ all::  refresh-po $(MOFILES)
+diff --git a/setup.py b/setup.py
+index 418055bd..5b8f4cf6 100644
+--- a/setup.py
++++ b/setup.py
+@@ -42,7 +42,7 @@ def findall(dirname=os.curdir):
+ filelist.findall = findall
+ 
+ # Extend the sdist command
+-class blivet_sdist(sdist):
++class blivet3_sdist(sdist):
+     def run(self):
+         # Build the .mo files
+         subprocess.check_call(['make', '-C', 'po'])
+@@ -68,12 +68,12 @@ data_files = [
+ ]
+ 
+ 
+-setup(name='blivet',
++setup(name='blivet3',
+       version='3.1.3',
+-      cmdclass={"sdist": blivet_sdist},
++      cmdclass={"sdist": blivet3_sdist},
+       description='Python module for system storage configuration',
+       author='David Lehman', author_email='dlehman@redhat.com',
+       url='http://github.com/storaged-project/blivet',
+       data_files=data_files,
+-      packages=['blivet', 'blivet.dbus', 'blivet.devices', 'blivet.devicelibs', 'blivet.events', 'blivet.formats', 'blivet.populator', 'blivet.static_data', 'blivet.tasks', 'blivet.populator.helpers']
++      packages=['blivet3', 'blivet3.dbus', 'blivet3.devices', 'blivet3.devicelibs', 'blivet3.events', 'blivet3.formats', 'blivet3.populator', 'blivet3.static_data', 'blivet3.tasks', 'blivet3.populator.helpers']
+      )
+-- 
+2.17.2
+

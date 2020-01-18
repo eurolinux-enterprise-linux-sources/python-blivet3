@@ -1,0 +1,29 @@
+From 027f143e2b40b76e5c6e4515c16f1134999196b2 Mon Sep 17 00:00:00 2001
+From: David Lehman <dlehman@redhat.com>
+Date: Thu, 28 Mar 2019 17:24:33 -0400
+Subject: [PATCH 12/20] Handle older pyudev w/o Device.properties
+
+---
+ blivet3/udev.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/blivet3/udev.py b/blivet3/udev.py
+index 96a199d8..227399bc 100644
+--- a/blivet3/udev.py
++++ b/blivet3/udev.py
+@@ -50,7 +50,11 @@ def device_to_dict(device):
+     # Sice blivet uses Device.properties only (with couple of exceptions)
+     # this is a functional workaround. (japokorn May 2017)
+ 
+-    result = dict(device.properties)
++    try:
++        result = dict(device.properties)
++    except AttributeError:
++        result = dict(device)
++
+     result["SYS_NAME"] = device.sys_name
+     result["SYS_PATH"] = device.sys_path
+     return result
+-- 
+2.20.1
+

@@ -1,0 +1,942 @@
+From a43bcd7f839b4cfc2a134612ff850012b22534fd Mon Sep 17 00:00:00 2001
+From: David Lehman <dlehman@redhat.com>
+Date: Mon, 25 Mar 2019 14:27:45 -0400
+Subject: [PATCH 1/8] Move blivet module/package to blivet3.
+
+---
+ {blivet => blivet3}/__init__.py               |   2 +-
+ {blivet => blivet3}/actionlist.py             |   0
+ {blivet => blivet3}/arch.py                   |   0
+ {blivet => blivet3}/blivet.py                 |   0
+ {blivet => blivet3}/callbacks.py              |   0
+ {blivet => blivet3}/dbus/__init__.py          |   0
+ {blivet => blivet3}/dbus/action.py            |   0
+ {blivet => blivet3}/dbus/blivet.py            |   0
+ {blivet => blivet3}/dbus/constants.py         |   0
+ {blivet => blivet3}/dbus/device.py            |   0
+ {blivet => blivet3}/dbus/format.py            |   0
+ {blivet => blivet3}/dbus/manager.py           |   0
+ {blivet => blivet3}/dbus/object.py            |   0
+ {blivet => blivet3}/deviceaction.py           |   0
+ {blivet => blivet3}/devicefactory.py          |   2 +-
+ {blivet => blivet3}/devicelibs/__init__.py    |   0
+ {blivet => blivet3}/devicelibs/btrfs.py       |   0
+ {blivet => blivet3}/devicelibs/crypto.py      |   0
+ {blivet => blivet3}/devicelibs/disk.py        |   0
+ {blivet => blivet3}/devicelibs/edd.py         |   0
+ {blivet => blivet3}/devicelibs/lvm.py         |   0
+ {blivet => blivet3}/devicelibs/mdraid.py      |   0
+ {blivet => blivet3}/devicelibs/raid.py        |   0
+ {blivet => blivet3}/devices/__init__.py       |   0
+ {blivet => blivet3}/devices/btrfs.py          |   0
+ {blivet => blivet3}/devices/cache.py          |   0
+ {blivet => blivet3}/devices/container.py      |   0
+ {blivet => blivet3}/devices/device.py         |   0
+ {blivet => blivet3}/devices/disk.py           |   0
+ {blivet => blivet3}/devices/dm.py             |   0
+ {blivet => blivet3}/devices/file.py           |   0
+ {blivet => blivet3}/devices/lib.py            |   0
+ {blivet => blivet3}/devices/loop.py           |   0
+ {blivet => blivet3}/devices/luks.py           |   0
+ {blivet => blivet3}/devices/lvm.py            |   0
+ {blivet => blivet3}/devices/md.py             |   0
+ {blivet => blivet3}/devices/network.py        |   0
+ {blivet => blivet3}/devices/nfs.py            |   0
+ {blivet => blivet3}/devices/nodev.py          |   0
+ {blivet => blivet3}/devices/optical.py        |   0
+ {blivet => blivet3}/devices/partition.py      |   0
+ {blivet => blivet3}/devices/raid.py           |   0
+ {blivet => blivet3}/devices/storage.py        |   0
+ {blivet => blivet3}/devicetree.py             |   0
+ {blivet => blivet3}/errors.py                 |   0
+ {blivet => blivet3}/events/__init__.py        |   0
+ {blivet => blivet3}/events/changes.py         |   0
+ {blivet => blivet3}/events/handler.py         |   0
+ {blivet => blivet3}/events/manager.py         |   0
+ {blivet => blivet3}/fcoe.py                   |   0
+ {blivet => blivet3}/flags.py                  |   0
+ {blivet => blivet3}/formats/__init__.py       |   0
+ {blivet => blivet3}/formats/biosboot.py       |   0
+ {blivet => blivet3}/formats/disklabel.py      |   0
+ {blivet => blivet3}/formats/dmraid.py         |   0
+ {blivet => blivet3}/formats/fs.py             |   0
+ {blivet => blivet3}/formats/fslib.py          |   0
+ {blivet => blivet3}/formats/luks.py           |   0
+ {blivet => blivet3}/formats/lvmpv.py          |   0
+ {blivet => blivet3}/formats/mdraid.py         |   0
+ {blivet => blivet3}/formats/multipath.py      |   0
+ {blivet => blivet3}/formats/prepboot.py       |   0
+ {blivet => blivet3}/formats/swap.py           |   0
+ {blivet => blivet3}/i18n.py                   |   0
+ {blivet => blivet3}/iscsi.py                  |   0
+ {blivet => blivet3}/mounts.py                 |   0
+ {blivet => blivet3}/partitioning.py           |   0
+ {blivet => blivet3}/populator/__init__.py     |   0
+ .../populator/helpers/__init__.py             |   0
+ {blivet => blivet3}/populator/helpers/boot.py |   0
+ .../populator/helpers/btrfs.py                |   0
+ .../populator/helpers/devicepopulator.py      |   0
+ {blivet => blivet3}/populator/helpers/disk.py |   0
+ .../populator/helpers/disklabel.py            |   0
+ {blivet => blivet3}/populator/helpers/dm.py   |   0
+ .../populator/helpers/dmraid.py               |   0
+ .../populator/helpers/formatpopulator.py      |   0
+ {blivet => blivet3}/populator/helpers/loop.py |   0
+ {blivet => blivet3}/populator/helpers/luks.py |   0
+ {blivet => blivet3}/populator/helpers/lvm.py  |   0
+ .../populator/helpers/mdraid.py               |   0
+ .../populator/helpers/multipath.py            |   0
+ .../populator/helpers/optical.py              |   0
+ .../populator/helpers/partition.py            |   0
+ .../populator/helpers/populatorhelper.py      |   0
+ {blivet => blivet3}/populator/populator.py    |   0
+ {blivet => blivet3}/safe_dbus.py              |   0
+ {blivet => blivet3}/size.py                   |   0
+ {blivet => blivet3}/static_data/__init__.py   |   0
+ {blivet => blivet3}/static_data/luks_data.py  |   0
+ {blivet => blivet3}/static_data/lvm_info.py   |   0
+ {blivet => blivet3}/static_data/mpath_info.py |   0
+ {blivet => blivet3}/static_data/nvdimm.py     |   0
+ {blivet => blivet3}/storage_log.py            |   0
+ {blivet => blivet3}/tasks/__init__.py         |   0
+ {blivet => blivet3}/tasks/availability.py     |   0
+ {blivet => blivet3}/tasks/dfresize.py         |   0
+ {blivet => blivet3}/tasks/fsck.py             |   0
+ {blivet => blivet3}/tasks/fsinfo.py           |   0
+ {blivet => blivet3}/tasks/fslabeling.py       |   0
+ {blivet => blivet3}/tasks/fsminsize.py        |   0
+ {blivet => blivet3}/tasks/fsmkfs.py           |   0
+ {blivet => blivet3}/tasks/fsmount.py          |   0
+ {blivet => blivet3}/tasks/fsreadlabel.py      |   0
+ {blivet => blivet3}/tasks/fsresize.py         |   0
+ {blivet => blivet3}/tasks/fssize.py           |   0
+ {blivet => blivet3}/tasks/fssync.py           |   0
+ {blivet => blivet3}/tasks/fstask.py           |   0
+ {blivet => blivet3}/tasks/fsuuid.py           |   0
+ {blivet => blivet3}/tasks/fswritelabel.py     |   0
+ {blivet => blivet3}/tasks/fswriteuuid.py      |   0
+ {blivet => blivet3}/tasks/lukstasks.py        |   0
+ {blivet => blivet3}/tasks/pvtask.py           |   0
+ {blivet => blivet3}/tasks/task.py             |   0
+ {blivet => blivet3}/threads.py                |   0
+ {blivet => blivet3}/tsort.py                  |   0
+ {blivet => blivet3}/udev.py                   |   0
+ {blivet => blivet3}/util.py                   |   0
+ {blivet => blivet3}/zfcp.py                   |   0
+ dbus/blivetd                                  |   4 +-
+ doc/intro.rst                                 |  10 +-
+ examples/factory.py                           |   6 +-
+ examples/list_devices.py                      |   4 +-
+ examples/lvm.py                               |   6 +-
+ examples/lvm_cache.py                         |   8 +-
+ examples/lvm_non_linear.py                    |   6 +-
+ examples/partitioning.py                      |   6 +-
+ examples/uevents.py                           |   8 +-
+ tests/action_test.py                          |  38 +-
+ tests/dbus_test.py                            |  34 +-
+ tests/devicefactory_test.py                   |  30 +-
+ tests/devicelibs_test/disk_test.py            |  14 +-
+ tests/devicelibs_test/edd_test.py             |   4 +-
+ tests/devicelibs_test/mdraid_test.py          |   2 +-
+ tests/devicelibs_test/raid_test.py            |   6 +-
+ tests/devices_test/dependencies_test.py       |  34 +-
+ tests/devices_test/device_methods_test.py     |  44 +--
+ tests/devices_test/device_names_test.py       |  10 +-
+ tests/devices_test/device_packages_test.py    |   8 +-
+ tests/devices_test/device_properties_test.py  |  44 +--
+ tests/devices_test/disk_test.py               |  10 +-
+ tests/devices_test/lvm_test.py                |  26 +-
+ tests/devices_test/md_test.py                 |  10 +-
+ tests/devices_test/network_test.py            |   6 +-
+ tests/devices_test/partition_test.py          |  24 +-
+ tests/devices_test/size_test.py               |   8 +-
+ tests/devices_test/tags_test.py               |   8 +-
+ tests/devicetree_test.py                      |  26 +-
+ tests/events_test.py                          |   4 +-
+ tests/formats_test/device_test.py             |   2 +-
+ tests/formats_test/disklabel_test.py          |  14 +-
+ tests/formats_test/fs_test.py                 |   4 +-
+ tests/formats_test/fslabeling.py              |   4 +-
+ tests/formats_test/fstesting.py               |   6 +-
+ tests/formats_test/fsuuid.py                  |   6 +-
+ tests/formats_test/init_test.py               |   2 +-
+ tests/formats_test/labeling_test.py           |   6 +-
+ tests/formats_test/luks_test.py               |   6 +-
+ tests/formats_test/methods_test.py            |  32 +-
+ tests/formats_test/misc_test.py               |   4 +-
+ tests/formats_test/selinux_test.py            |   6 +-
+ tests/formats_test/uuid_test.py               |   4 +-
+ tests/imagebackedtestcase.py                  |   6 +-
+ tests/integration/incomplete-lvm.sh           |   4 +
+ tests/loopbackedtestcase.py                   |   2 +-
+ tests/parentlist_test.py                      |   4 +-
+ tests/partitioning_test.py                    |  50 +--
+ tests/populator_test.py                       | 350 +++++++++---------
+ tests/size_test.py                            |   6 +-
+ tests/storagetestcase.py                      |   8 +-
+ tests/tasks_test/basic_tests.py               |   4 +-
+ tests/tsort_test.py                           |   2 +-
+ tests/udev_test.py                            |  10 +-
+ tests/unsupported_disklabel_test.py           |  32 +-
+ tests/util_test.py                            |   6 +-
+ tests/vmtests/blivet_reset_vmtest.py          |  10 +-
+ tests/vmtests/vmbackedtestcase.py             |   2 +-
+ 177 files changed, 524 insertions(+), 520 deletions(-)
+ rename {blivet => blivet3}/__init__.py (98%)
+ rename {blivet => blivet3}/actionlist.py (100%)
+ rename {blivet => blivet3}/arch.py (100%)
+ rename {blivet => blivet3}/blivet.py (100%)
+ rename {blivet => blivet3}/callbacks.py (100%)
+ rename {blivet => blivet3}/dbus/__init__.py (100%)
+ rename {blivet => blivet3}/dbus/action.py (100%)
+ rename {blivet => blivet3}/dbus/blivet.py (100%)
+ rename {blivet => blivet3}/dbus/constants.py (100%)
+ rename {blivet => blivet3}/dbus/device.py (100%)
+ rename {blivet => blivet3}/dbus/format.py (100%)
+ rename {blivet => blivet3}/dbus/manager.py (100%)
+ rename {blivet => blivet3}/dbus/object.py (100%)
+ rename {blivet => blivet3}/deviceaction.py (100%)
+ rename {blivet => blivet3}/devicefactory.py (99%)
+ rename {blivet => blivet3}/devicelibs/__init__.py (100%)
+ rename {blivet => blivet3}/devicelibs/btrfs.py (100%)
+ rename {blivet => blivet3}/devicelibs/crypto.py (100%)
+ rename {blivet => blivet3}/devicelibs/disk.py (100%)
+ rename {blivet => blivet3}/devicelibs/edd.py (100%)
+ rename {blivet => blivet3}/devicelibs/lvm.py (100%)
+ rename {blivet => blivet3}/devicelibs/mdraid.py (100%)
+ rename {blivet => blivet3}/devicelibs/raid.py (100%)
+ rename {blivet => blivet3}/devices/__init__.py (100%)
+ rename {blivet => blivet3}/devices/btrfs.py (100%)
+ rename {blivet => blivet3}/devices/cache.py (100%)
+ rename {blivet => blivet3}/devices/container.py (100%)
+ rename {blivet => blivet3}/devices/device.py (100%)
+ rename {blivet => blivet3}/devices/disk.py (100%)
+ rename {blivet => blivet3}/devices/dm.py (100%)
+ rename {blivet => blivet3}/devices/file.py (100%)
+ rename {blivet => blivet3}/devices/lib.py (100%)
+ rename {blivet => blivet3}/devices/loop.py (100%)
+ rename {blivet => blivet3}/devices/luks.py (100%)
+ rename {blivet => blivet3}/devices/lvm.py (100%)
+ rename {blivet => blivet3}/devices/md.py (100%)
+ rename {blivet => blivet3}/devices/network.py (100%)
+ rename {blivet => blivet3}/devices/nfs.py (100%)
+ rename {blivet => blivet3}/devices/nodev.py (100%)
+ rename {blivet => blivet3}/devices/optical.py (100%)
+ rename {blivet => blivet3}/devices/partition.py (100%)
+ rename {blivet => blivet3}/devices/raid.py (100%)
+ rename {blivet => blivet3}/devices/storage.py (100%)
+ rename {blivet => blivet3}/devicetree.py (100%)
+ rename {blivet => blivet3}/errors.py (100%)
+ rename {blivet => blivet3}/events/__init__.py (100%)
+ rename {blivet => blivet3}/events/changes.py (100%)
+ rename {blivet => blivet3}/events/handler.py (100%)
+ rename {blivet => blivet3}/events/manager.py (100%)
+ rename {blivet => blivet3}/fcoe.py (100%)
+ rename {blivet => blivet3}/flags.py (100%)
+ rename {blivet => blivet3}/formats/__init__.py (100%)
+ rename {blivet => blivet3}/formats/biosboot.py (100%)
+ rename {blivet => blivet3}/formats/disklabel.py (100%)
+ rename {blivet => blivet3}/formats/dmraid.py (100%)
+ rename {blivet => blivet3}/formats/fs.py (100%)
+ rename {blivet => blivet3}/formats/fslib.py (100%)
+ rename {blivet => blivet3}/formats/luks.py (100%)
+ rename {blivet => blivet3}/formats/lvmpv.py (100%)
+ rename {blivet => blivet3}/formats/mdraid.py (100%)
+ rename {blivet => blivet3}/formats/multipath.py (100%)
+ rename {blivet => blivet3}/formats/prepboot.py (100%)
+ rename {blivet => blivet3}/formats/swap.py (100%)
+ rename {blivet => blivet3}/i18n.py (100%)
+ rename {blivet => blivet3}/iscsi.py (100%)
+ rename {blivet => blivet3}/mounts.py (100%)
+ rename {blivet => blivet3}/partitioning.py (100%)
+ rename {blivet => blivet3}/populator/__init__.py (100%)
+ rename {blivet => blivet3}/populator/helpers/__init__.py (100%)
+ rename {blivet => blivet3}/populator/helpers/boot.py (100%)
+ rename {blivet => blivet3}/populator/helpers/btrfs.py (100%)
+ rename {blivet => blivet3}/populator/helpers/devicepopulator.py (100%)
+ rename {blivet => blivet3}/populator/helpers/disk.py (100%)
+ rename {blivet => blivet3}/populator/helpers/disklabel.py (100%)
+ rename {blivet => blivet3}/populator/helpers/dm.py (100%)
+ rename {blivet => blivet3}/populator/helpers/dmraid.py (100%)
+ rename {blivet => blivet3}/populator/helpers/formatpopulator.py (100%)
+ rename {blivet => blivet3}/populator/helpers/loop.py (100%)
+ rename {blivet => blivet3}/populator/helpers/luks.py (100%)
+ rename {blivet => blivet3}/populator/helpers/lvm.py (100%)
+ rename {blivet => blivet3}/populator/helpers/mdraid.py (100%)
+ rename {blivet => blivet3}/populator/helpers/multipath.py (100%)
+ rename {blivet => blivet3}/populator/helpers/optical.py (100%)
+ rename {blivet => blivet3}/populator/helpers/partition.py (100%)
+ rename {blivet => blivet3}/populator/helpers/populatorhelper.py (100%)
+ rename {blivet => blivet3}/populator/populator.py (100%)
+ rename {blivet => blivet3}/safe_dbus.py (100%)
+ rename {blivet => blivet3}/size.py (100%)
+ rename {blivet => blivet3}/static_data/__init__.py (100%)
+ rename {blivet => blivet3}/static_data/luks_data.py (100%)
+ rename {blivet => blivet3}/static_data/lvm_info.py (100%)
+ rename {blivet => blivet3}/static_data/mpath_info.py (100%)
+ rename {blivet => blivet3}/static_data/nvdimm.py (100%)
+ rename {blivet => blivet3}/storage_log.py (100%)
+ rename {blivet => blivet3}/tasks/__init__.py (100%)
+ rename {blivet => blivet3}/tasks/availability.py (100%)
+ rename {blivet => blivet3}/tasks/dfresize.py (100%)
+ rename {blivet => blivet3}/tasks/fsck.py (100%)
+ rename {blivet => blivet3}/tasks/fsinfo.py (100%)
+ rename {blivet => blivet3}/tasks/fslabeling.py (100%)
+ rename {blivet => blivet3}/tasks/fsminsize.py (100%)
+ rename {blivet => blivet3}/tasks/fsmkfs.py (100%)
+ rename {blivet => blivet3}/tasks/fsmount.py (100%)
+ rename {blivet => blivet3}/tasks/fsreadlabel.py (100%)
+ rename {blivet => blivet3}/tasks/fsresize.py (100%)
+ rename {blivet => blivet3}/tasks/fssize.py (100%)
+ rename {blivet => blivet3}/tasks/fssync.py (100%)
+ rename {blivet => blivet3}/tasks/fstask.py (100%)
+ rename {blivet => blivet3}/tasks/fsuuid.py (100%)
+ rename {blivet => blivet3}/tasks/fswritelabel.py (100%)
+ rename {blivet => blivet3}/tasks/fswriteuuid.py (100%)
+ rename {blivet => blivet3}/tasks/lukstasks.py (100%)
+ rename {blivet => blivet3}/tasks/pvtask.py (100%)
+ rename {blivet => blivet3}/tasks/task.py (100%)
+ rename {blivet => blivet3}/threads.py (100%)
+ rename {blivet => blivet3}/tsort.py (100%)
+ rename {blivet => blivet3}/udev.py (100%)
+ rename {blivet => blivet3}/util.py (100%)
+ rename {blivet => blivet3}/zfcp.py (100%)
+ create mode 100644 tests/integration/incomplete-lvm.sh
+
+diff --git a/blivet/__init__.py b/blivet3/__init__.py
+similarity index 98%
+rename from blivet/__init__.py
+rename to blivet3/__init__.py
+index 74744e38..902d3df9 100644
+--- a/blivet/__init__.py
++++ b/blivet3/__init__.py
+@@ -124,7 +124,7 @@ class _LazyImportObject(object):
+         return dir(val)
+ 
+ 
+-# this way things like 'from blivet import Blivet' work without an overhead of
++# this way things like 'from blivet3 import Blivet' work without an overhead of
+ # importing of everything the Blivet class needs whenever anything from the
+ # 'blivet' package is imported (e.g. the 'arch' module)
+ Blivet = _LazyImportObject("Blivet", "blivet")
+diff --git a/blivet/actionlist.py b/blivet3/actionlist.py
+similarity index 100%
+rename from blivet/actionlist.py
+rename to blivet3/actionlist.py
+diff --git a/blivet/arch.py b/blivet3/arch.py
+similarity index 100%
+rename from blivet/arch.py
+rename to blivet3/arch.py
+diff --git a/blivet/blivet.py b/blivet3/blivet.py
+similarity index 100%
+rename from blivet/blivet.py
+rename to blivet3/blivet.py
+diff --git a/blivet/callbacks.py b/blivet3/callbacks.py
+similarity index 100%
+rename from blivet/callbacks.py
+rename to blivet3/callbacks.py
+diff --git a/blivet/dbus/__init__.py b/blivet3/dbus/__init__.py
+similarity index 100%
+rename from blivet/dbus/__init__.py
+rename to blivet3/dbus/__init__.py
+diff --git a/blivet/dbus/action.py b/blivet3/dbus/action.py
+similarity index 100%
+rename from blivet/dbus/action.py
+rename to blivet3/dbus/action.py
+diff --git a/blivet/dbus/blivet.py b/blivet3/dbus/blivet.py
+similarity index 100%
+rename from blivet/dbus/blivet.py
+rename to blivet3/dbus/blivet.py
+diff --git a/blivet/dbus/constants.py b/blivet3/dbus/constants.py
+similarity index 100%
+rename from blivet/dbus/constants.py
+rename to blivet3/dbus/constants.py
+diff --git a/blivet/dbus/device.py b/blivet3/dbus/device.py
+similarity index 100%
+rename from blivet/dbus/device.py
+rename to blivet3/dbus/device.py
+diff --git a/blivet/dbus/format.py b/blivet3/dbus/format.py
+similarity index 100%
+rename from blivet/dbus/format.py
+rename to blivet3/dbus/format.py
+diff --git a/blivet/dbus/manager.py b/blivet3/dbus/manager.py
+similarity index 100%
+rename from blivet/dbus/manager.py
+rename to blivet3/dbus/manager.py
+diff --git a/blivet/dbus/object.py b/blivet3/dbus/object.py
+similarity index 100%
+rename from blivet/dbus/object.py
+rename to blivet3/dbus/object.py
+diff --git a/blivet/deviceaction.py b/blivet3/deviceaction.py
+similarity index 100%
+rename from blivet/deviceaction.py
+rename to blivet3/deviceaction.py
+diff --git a/blivet/devicefactory.py b/blivet3/devicefactory.py
+similarity index 99%
+rename from blivet/devicefactory.py
+rename to blivet3/devicefactory.py
+index 51595416..a15b60c9 100644
+--- a/blivet/devicefactory.py
++++ b/blivet3/devicefactory.py
+@@ -182,7 +182,7 @@ class DeviceFactory(object):
+         group exists on disk its size will not be changed, but if it has not
+         been written to disk it will be adjusted to hold the new logical volume::
+ 
+-            import blivet
++            import blivet3
+ 
+             _blivet = blivet.Blivet()
+             _blivet.reset()
+diff --git a/blivet/devicelibs/__init__.py b/blivet3/devicelibs/__init__.py
+similarity index 100%
+rename from blivet/devicelibs/__init__.py
+rename to blivet3/devicelibs/__init__.py
+diff --git a/blivet/devicelibs/btrfs.py b/blivet3/devicelibs/btrfs.py
+similarity index 100%
+rename from blivet/devicelibs/btrfs.py
+rename to blivet3/devicelibs/btrfs.py
+diff --git a/blivet/devicelibs/crypto.py b/blivet3/devicelibs/crypto.py
+similarity index 100%
+rename from blivet/devicelibs/crypto.py
+rename to blivet3/devicelibs/crypto.py
+diff --git a/blivet/devicelibs/disk.py b/blivet3/devicelibs/disk.py
+similarity index 100%
+rename from blivet/devicelibs/disk.py
+rename to blivet3/devicelibs/disk.py
+diff --git a/blivet/devicelibs/edd.py b/blivet3/devicelibs/edd.py
+similarity index 100%
+rename from blivet/devicelibs/edd.py
+rename to blivet3/devicelibs/edd.py
+diff --git a/blivet/devicelibs/lvm.py b/blivet3/devicelibs/lvm.py
+similarity index 100%
+rename from blivet/devicelibs/lvm.py
+rename to blivet3/devicelibs/lvm.py
+diff --git a/blivet/devicelibs/mdraid.py b/blivet3/devicelibs/mdraid.py
+similarity index 100%
+rename from blivet/devicelibs/mdraid.py
+rename to blivet3/devicelibs/mdraid.py
+diff --git a/blivet/devicelibs/raid.py b/blivet3/devicelibs/raid.py
+similarity index 100%
+rename from blivet/devicelibs/raid.py
+rename to blivet3/devicelibs/raid.py
+diff --git a/blivet/devices/__init__.py b/blivet3/devices/__init__.py
+similarity index 100%
+rename from blivet/devices/__init__.py
+rename to blivet3/devices/__init__.py
+diff --git a/blivet/devices/btrfs.py b/blivet3/devices/btrfs.py
+similarity index 100%
+rename from blivet/devices/btrfs.py
+rename to blivet3/devices/btrfs.py
+diff --git a/blivet/devices/cache.py b/blivet3/devices/cache.py
+similarity index 100%
+rename from blivet/devices/cache.py
+rename to blivet3/devices/cache.py
+diff --git a/blivet/devices/container.py b/blivet3/devices/container.py
+similarity index 100%
+rename from blivet/devices/container.py
+rename to blivet3/devices/container.py
+diff --git a/blivet/devices/device.py b/blivet3/devices/device.py
+similarity index 100%
+rename from blivet/devices/device.py
+rename to blivet3/devices/device.py
+diff --git a/blivet/devices/disk.py b/blivet3/devices/disk.py
+similarity index 100%
+rename from blivet/devices/disk.py
+rename to blivet3/devices/disk.py
+diff --git a/blivet/devices/dm.py b/blivet3/devices/dm.py
+similarity index 100%
+rename from blivet/devices/dm.py
+rename to blivet3/devices/dm.py
+diff --git a/blivet/devices/file.py b/blivet3/devices/file.py
+similarity index 100%
+rename from blivet/devices/file.py
+rename to blivet3/devices/file.py
+diff --git a/blivet/devices/lib.py b/blivet3/devices/lib.py
+similarity index 100%
+rename from blivet/devices/lib.py
+rename to blivet3/devices/lib.py
+diff --git a/blivet/devices/loop.py b/blivet3/devices/loop.py
+similarity index 100%
+rename from blivet/devices/loop.py
+rename to blivet3/devices/loop.py
+diff --git a/blivet/devices/luks.py b/blivet3/devices/luks.py
+similarity index 100%
+rename from blivet/devices/luks.py
+rename to blivet3/devices/luks.py
+diff --git a/blivet/devices/lvm.py b/blivet3/devices/lvm.py
+similarity index 100%
+rename from blivet/devices/lvm.py
+rename to blivet3/devices/lvm.py
+diff --git a/blivet/devices/md.py b/blivet3/devices/md.py
+similarity index 100%
+rename from blivet/devices/md.py
+rename to blivet3/devices/md.py
+diff --git a/blivet/devices/network.py b/blivet3/devices/network.py
+similarity index 100%
+rename from blivet/devices/network.py
+rename to blivet3/devices/network.py
+diff --git a/blivet/devices/nfs.py b/blivet3/devices/nfs.py
+similarity index 100%
+rename from blivet/devices/nfs.py
+rename to blivet3/devices/nfs.py
+diff --git a/blivet/devices/nodev.py b/blivet3/devices/nodev.py
+similarity index 100%
+rename from blivet/devices/nodev.py
+rename to blivet3/devices/nodev.py
+diff --git a/blivet/devices/optical.py b/blivet3/devices/optical.py
+similarity index 100%
+rename from blivet/devices/optical.py
+rename to blivet3/devices/optical.py
+diff --git a/blivet/devices/partition.py b/blivet3/devices/partition.py
+similarity index 100%
+rename from blivet/devices/partition.py
+rename to blivet3/devices/partition.py
+diff --git a/blivet/devices/raid.py b/blivet3/devices/raid.py
+similarity index 100%
+rename from blivet/devices/raid.py
+rename to blivet3/devices/raid.py
+diff --git a/blivet/devices/storage.py b/blivet3/devices/storage.py
+similarity index 100%
+rename from blivet/devices/storage.py
+rename to blivet3/devices/storage.py
+diff --git a/blivet/devicetree.py b/blivet3/devicetree.py
+similarity index 100%
+rename from blivet/devicetree.py
+rename to blivet3/devicetree.py
+diff --git a/blivet/errors.py b/blivet3/errors.py
+similarity index 100%
+rename from blivet/errors.py
+rename to blivet3/errors.py
+diff --git a/blivet/events/__init__.py b/blivet3/events/__init__.py
+similarity index 100%
+rename from blivet/events/__init__.py
+rename to blivet3/events/__init__.py
+diff --git a/blivet/events/changes.py b/blivet3/events/changes.py
+similarity index 100%
+rename from blivet/events/changes.py
+rename to blivet3/events/changes.py
+diff --git a/blivet/events/handler.py b/blivet3/events/handler.py
+similarity index 100%
+rename from blivet/events/handler.py
+rename to blivet3/events/handler.py
+diff --git a/blivet/events/manager.py b/blivet3/events/manager.py
+similarity index 100%
+rename from blivet/events/manager.py
+rename to blivet3/events/manager.py
+diff --git a/blivet/fcoe.py b/blivet3/fcoe.py
+similarity index 100%
+rename from blivet/fcoe.py
+rename to blivet3/fcoe.py
+diff --git a/blivet/flags.py b/blivet3/flags.py
+similarity index 100%
+rename from blivet/flags.py
+rename to blivet3/flags.py
+diff --git a/blivet/formats/__init__.py b/blivet3/formats/__init__.py
+similarity index 100%
+rename from blivet/formats/__init__.py
+rename to blivet3/formats/__init__.py
+diff --git a/blivet/formats/biosboot.py b/blivet3/formats/biosboot.py
+similarity index 100%
+rename from blivet/formats/biosboot.py
+rename to blivet3/formats/biosboot.py
+diff --git a/blivet/formats/disklabel.py b/blivet3/formats/disklabel.py
+similarity index 100%
+rename from blivet/formats/disklabel.py
+rename to blivet3/formats/disklabel.py
+diff --git a/blivet/formats/dmraid.py b/blivet3/formats/dmraid.py
+similarity index 100%
+rename from blivet/formats/dmraid.py
+rename to blivet3/formats/dmraid.py
+diff --git a/blivet/formats/fs.py b/blivet3/formats/fs.py
+similarity index 100%
+rename from blivet/formats/fs.py
+rename to blivet3/formats/fs.py
+diff --git a/blivet/formats/fslib.py b/blivet3/formats/fslib.py
+similarity index 100%
+rename from blivet/formats/fslib.py
+rename to blivet3/formats/fslib.py
+diff --git a/blivet/formats/luks.py b/blivet3/formats/luks.py
+similarity index 100%
+rename from blivet/formats/luks.py
+rename to blivet3/formats/luks.py
+diff --git a/blivet/formats/lvmpv.py b/blivet3/formats/lvmpv.py
+similarity index 100%
+rename from blivet/formats/lvmpv.py
+rename to blivet3/formats/lvmpv.py
+diff --git a/blivet/formats/mdraid.py b/blivet3/formats/mdraid.py
+similarity index 100%
+rename from blivet/formats/mdraid.py
+rename to blivet3/formats/mdraid.py
+diff --git a/blivet/formats/multipath.py b/blivet3/formats/multipath.py
+similarity index 100%
+rename from blivet/formats/multipath.py
+rename to blivet3/formats/multipath.py
+diff --git a/blivet/formats/prepboot.py b/blivet3/formats/prepboot.py
+similarity index 100%
+rename from blivet/formats/prepboot.py
+rename to blivet3/formats/prepboot.py
+diff --git a/blivet/formats/swap.py b/blivet3/formats/swap.py
+similarity index 100%
+rename from blivet/formats/swap.py
+rename to blivet3/formats/swap.py
+diff --git a/blivet/i18n.py b/blivet3/i18n.py
+similarity index 100%
+rename from blivet/i18n.py
+rename to blivet3/i18n.py
+diff --git a/blivet/iscsi.py b/blivet3/iscsi.py
+similarity index 100%
+rename from blivet/iscsi.py
+rename to blivet3/iscsi.py
+diff --git a/blivet/mounts.py b/blivet3/mounts.py
+similarity index 100%
+rename from blivet/mounts.py
+rename to blivet3/mounts.py
+diff --git a/blivet/partitioning.py b/blivet3/partitioning.py
+similarity index 100%
+rename from blivet/partitioning.py
+rename to blivet3/partitioning.py
+diff --git a/blivet/populator/__init__.py b/blivet3/populator/__init__.py
+similarity index 100%
+rename from blivet/populator/__init__.py
+rename to blivet3/populator/__init__.py
+diff --git a/blivet/populator/helpers/__init__.py b/blivet3/populator/helpers/__init__.py
+similarity index 100%
+rename from blivet/populator/helpers/__init__.py
+rename to blivet3/populator/helpers/__init__.py
+diff --git a/blivet/populator/helpers/boot.py b/blivet3/populator/helpers/boot.py
+similarity index 100%
+rename from blivet/populator/helpers/boot.py
+rename to blivet3/populator/helpers/boot.py
+diff --git a/blivet/populator/helpers/btrfs.py b/blivet3/populator/helpers/btrfs.py
+similarity index 100%
+rename from blivet/populator/helpers/btrfs.py
+rename to blivet3/populator/helpers/btrfs.py
+diff --git a/blivet/populator/helpers/devicepopulator.py b/blivet3/populator/helpers/devicepopulator.py
+similarity index 100%
+rename from blivet/populator/helpers/devicepopulator.py
+rename to blivet3/populator/helpers/devicepopulator.py
+diff --git a/blivet/populator/helpers/disk.py b/blivet3/populator/helpers/disk.py
+similarity index 100%
+rename from blivet/populator/helpers/disk.py
+rename to blivet3/populator/helpers/disk.py
+diff --git a/blivet/populator/helpers/disklabel.py b/blivet3/populator/helpers/disklabel.py
+similarity index 100%
+rename from blivet/populator/helpers/disklabel.py
+rename to blivet3/populator/helpers/disklabel.py
+diff --git a/blivet/populator/helpers/dm.py b/blivet3/populator/helpers/dm.py
+similarity index 100%
+rename from blivet/populator/helpers/dm.py
+rename to blivet3/populator/helpers/dm.py
+diff --git a/blivet/populator/helpers/dmraid.py b/blivet3/populator/helpers/dmraid.py
+similarity index 100%
+rename from blivet/populator/helpers/dmraid.py
+rename to blivet3/populator/helpers/dmraid.py
+diff --git a/blivet/populator/helpers/formatpopulator.py b/blivet3/populator/helpers/formatpopulator.py
+similarity index 100%
+rename from blivet/populator/helpers/formatpopulator.py
+rename to blivet3/populator/helpers/formatpopulator.py
+diff --git a/blivet/populator/helpers/loop.py b/blivet3/populator/helpers/loop.py
+similarity index 100%
+rename from blivet/populator/helpers/loop.py
+rename to blivet3/populator/helpers/loop.py
+diff --git a/blivet/populator/helpers/luks.py b/blivet3/populator/helpers/luks.py
+similarity index 100%
+rename from blivet/populator/helpers/luks.py
+rename to blivet3/populator/helpers/luks.py
+diff --git a/blivet/populator/helpers/lvm.py b/blivet3/populator/helpers/lvm.py
+similarity index 100%
+rename from blivet/populator/helpers/lvm.py
+rename to blivet3/populator/helpers/lvm.py
+diff --git a/blivet/populator/helpers/mdraid.py b/blivet3/populator/helpers/mdraid.py
+similarity index 100%
+rename from blivet/populator/helpers/mdraid.py
+rename to blivet3/populator/helpers/mdraid.py
+diff --git a/blivet/populator/helpers/multipath.py b/blivet3/populator/helpers/multipath.py
+similarity index 100%
+rename from blivet/populator/helpers/multipath.py
+rename to blivet3/populator/helpers/multipath.py
+diff --git a/blivet/populator/helpers/optical.py b/blivet3/populator/helpers/optical.py
+similarity index 100%
+rename from blivet/populator/helpers/optical.py
+rename to blivet3/populator/helpers/optical.py
+diff --git a/blivet/populator/helpers/partition.py b/blivet3/populator/helpers/partition.py
+similarity index 100%
+rename from blivet/populator/helpers/partition.py
+rename to blivet3/populator/helpers/partition.py
+diff --git a/blivet/populator/helpers/populatorhelper.py b/blivet3/populator/helpers/populatorhelper.py
+similarity index 100%
+rename from blivet/populator/helpers/populatorhelper.py
+rename to blivet3/populator/helpers/populatorhelper.py
+diff --git a/blivet/populator/populator.py b/blivet3/populator/populator.py
+similarity index 100%
+rename from blivet/populator/populator.py
+rename to blivet3/populator/populator.py
+diff --git a/blivet/safe_dbus.py b/blivet3/safe_dbus.py
+similarity index 100%
+rename from blivet/safe_dbus.py
+rename to blivet3/safe_dbus.py
+diff --git a/blivet/size.py b/blivet3/size.py
+similarity index 100%
+rename from blivet/size.py
+rename to blivet3/size.py
+diff --git a/blivet/static_data/__init__.py b/blivet3/static_data/__init__.py
+similarity index 100%
+rename from blivet/static_data/__init__.py
+rename to blivet3/static_data/__init__.py
+diff --git a/blivet/static_data/luks_data.py b/blivet3/static_data/luks_data.py
+similarity index 100%
+rename from blivet/static_data/luks_data.py
+rename to blivet3/static_data/luks_data.py
+diff --git a/blivet/static_data/lvm_info.py b/blivet3/static_data/lvm_info.py
+similarity index 100%
+rename from blivet/static_data/lvm_info.py
+rename to blivet3/static_data/lvm_info.py
+diff --git a/blivet/static_data/mpath_info.py b/blivet3/static_data/mpath_info.py
+similarity index 100%
+rename from blivet/static_data/mpath_info.py
+rename to blivet3/static_data/mpath_info.py
+diff --git a/blivet/static_data/nvdimm.py b/blivet3/static_data/nvdimm.py
+similarity index 100%
+rename from blivet/static_data/nvdimm.py
+rename to blivet3/static_data/nvdimm.py
+diff --git a/blivet/storage_log.py b/blivet3/storage_log.py
+similarity index 100%
+rename from blivet/storage_log.py
+rename to blivet3/storage_log.py
+diff --git a/blivet/tasks/__init__.py b/blivet3/tasks/__init__.py
+similarity index 100%
+rename from blivet/tasks/__init__.py
+rename to blivet3/tasks/__init__.py
+diff --git a/blivet/tasks/availability.py b/blivet3/tasks/availability.py
+similarity index 100%
+rename from blivet/tasks/availability.py
+rename to blivet3/tasks/availability.py
+diff --git a/blivet/tasks/dfresize.py b/blivet3/tasks/dfresize.py
+similarity index 100%
+rename from blivet/tasks/dfresize.py
+rename to blivet3/tasks/dfresize.py
+diff --git a/blivet/tasks/fsck.py b/blivet3/tasks/fsck.py
+similarity index 100%
+rename from blivet/tasks/fsck.py
+rename to blivet3/tasks/fsck.py
+diff --git a/blivet/tasks/fsinfo.py b/blivet3/tasks/fsinfo.py
+similarity index 100%
+rename from blivet/tasks/fsinfo.py
+rename to blivet3/tasks/fsinfo.py
+diff --git a/blivet/tasks/fslabeling.py b/blivet3/tasks/fslabeling.py
+similarity index 100%
+rename from blivet/tasks/fslabeling.py
+rename to blivet3/tasks/fslabeling.py
+diff --git a/blivet/tasks/fsminsize.py b/blivet3/tasks/fsminsize.py
+similarity index 100%
+rename from blivet/tasks/fsminsize.py
+rename to blivet3/tasks/fsminsize.py
+diff --git a/blivet/tasks/fsmkfs.py b/blivet3/tasks/fsmkfs.py
+similarity index 100%
+rename from blivet/tasks/fsmkfs.py
+rename to blivet3/tasks/fsmkfs.py
+diff --git a/blivet/tasks/fsmount.py b/blivet3/tasks/fsmount.py
+similarity index 100%
+rename from blivet/tasks/fsmount.py
+rename to blivet3/tasks/fsmount.py
+diff --git a/blivet/tasks/fsreadlabel.py b/blivet3/tasks/fsreadlabel.py
+similarity index 100%
+rename from blivet/tasks/fsreadlabel.py
+rename to blivet3/tasks/fsreadlabel.py
+diff --git a/blivet/tasks/fsresize.py b/blivet3/tasks/fsresize.py
+similarity index 100%
+rename from blivet/tasks/fsresize.py
+rename to blivet3/tasks/fsresize.py
+diff --git a/blivet/tasks/fssize.py b/blivet3/tasks/fssize.py
+similarity index 100%
+rename from blivet/tasks/fssize.py
+rename to blivet3/tasks/fssize.py
+diff --git a/blivet/tasks/fssync.py b/blivet3/tasks/fssync.py
+similarity index 100%
+rename from blivet/tasks/fssync.py
+rename to blivet3/tasks/fssync.py
+diff --git a/blivet/tasks/fstask.py b/blivet3/tasks/fstask.py
+similarity index 100%
+rename from blivet/tasks/fstask.py
+rename to blivet3/tasks/fstask.py
+diff --git a/blivet/tasks/fsuuid.py b/blivet3/tasks/fsuuid.py
+similarity index 100%
+rename from blivet/tasks/fsuuid.py
+rename to blivet3/tasks/fsuuid.py
+diff --git a/blivet/tasks/fswritelabel.py b/blivet3/tasks/fswritelabel.py
+similarity index 100%
+rename from blivet/tasks/fswritelabel.py
+rename to blivet3/tasks/fswritelabel.py
+diff --git a/blivet/tasks/fswriteuuid.py b/blivet3/tasks/fswriteuuid.py
+similarity index 100%
+rename from blivet/tasks/fswriteuuid.py
+rename to blivet3/tasks/fswriteuuid.py
+diff --git a/blivet/tasks/lukstasks.py b/blivet3/tasks/lukstasks.py
+similarity index 100%
+rename from blivet/tasks/lukstasks.py
+rename to blivet3/tasks/lukstasks.py
+diff --git a/blivet/tasks/pvtask.py b/blivet3/tasks/pvtask.py
+similarity index 100%
+rename from blivet/tasks/pvtask.py
+rename to blivet3/tasks/pvtask.py
+diff --git a/blivet/tasks/task.py b/blivet3/tasks/task.py
+similarity index 100%
+rename from blivet/tasks/task.py
+rename to blivet3/tasks/task.py
+diff --git a/blivet/threads.py b/blivet3/threads.py
+similarity index 100%
+rename from blivet/threads.py
+rename to blivet3/threads.py
+diff --git a/blivet/tsort.py b/blivet3/tsort.py
+similarity index 100%
+rename from blivet/tsort.py
+rename to blivet3/tsort.py
+diff --git a/blivet/udev.py b/blivet3/udev.py
+similarity index 100%
+rename from blivet/udev.py
+rename to blivet3/udev.py
+diff --git a/blivet/util.py b/blivet3/util.py
+similarity index 100%
+rename from blivet/util.py
+rename to blivet3/util.py
+diff --git a/blivet/zfcp.py b/blivet3/zfcp.py
+similarity index 100%
+rename from blivet/zfcp.py
+rename to blivet3/zfcp.py
+diff --git a/dbus/blivetd b/dbus/blivetd
+index 6505a805..d9abbcd5 100755
+--- a/dbus/blivetd
++++ b/dbus/blivetd
+@@ -3,8 +3,8 @@ import dbus
+ import dbus.mainloop.glib
+ from gi.repository import GLib
+ 
+-from blivet.dbus.blivet import DBusBlivet
+-from blivet.dbus.manager import ObjectManager
++from blivet3.dbus.blivet import DBusBlivet
++from blivet3.dbus.manager import ObjectManager
+ 
+ dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
+ system_bus = dbus.SystemBus()
+diff --git a/examples/factory.py b/examples/factory.py
+index 7c477468..e54c1bea 100644
+--- a/examples/factory.py
++++ b/examples/factory.py
+@@ -1,8 +1,8 @@
+ import os
+ 
+-import blivet
+-from blivet.size import Size
+-from blivet.util import set_up_logging, create_sparse_tempfile
++import blivet3
++from blivet3.size import Size
++from blivet3.util import set_up_logging, create_sparse_tempfile
+ 
+ set_up_logging()
+ b = blivet.Blivet()   # create an instance of Blivet (don't add system devices)
+diff --git a/examples/list_devices.py b/examples/list_devices.py
+index 384fd5ee..2415ae85 100644
+--- a/examples/list_devices.py
++++ b/examples/list_devices.py
+@@ -1,5 +1,5 @@
+-import blivet
+-from blivet.util import set_up_logging
++import blivet3
++from blivet3.util import set_up_logging
+ 
+ set_up_logging()
+ b = blivet.Blivet()   # create an instance of Blivet
+diff --git a/examples/lvm.py b/examples/lvm.py
+index ac1f561c..6f736a44 100644
+--- a/examples/lvm.py
++++ b/examples/lvm.py
+@@ -1,8 +1,8 @@
+ import os
+ 
+-import blivet
+-from blivet.size import Size
+-from blivet.util import set_up_logging, create_sparse_tempfile
++import blivet3
++from blivet3.size import Size
++from blivet3.util import set_up_logging, create_sparse_tempfile
+ 
+ set_up_logging()
+ b = blivet.Blivet()   # create an instance of Blivet (don't add system devices)
+diff --git a/examples/lvm_cache.py b/examples/lvm_cache.py
+index e8dd0623..5f1d71ea 100644
+--- a/examples/lvm_cache.py
++++ b/examples/lvm_cache.py
+@@ -1,9 +1,9 @@
+ import os
+ 
+-import blivet
+-from blivet.size import Size
+-from blivet.util import set_up_logging, create_sparse_tempfile
+-from blivet.devices.lvm import LVMCacheRequest
++import blivet3
++from blivet3.size import Size
++from blivet3.util import set_up_logging, create_sparse_tempfile
++from blivet3.devices.lvm import LVMCacheRequest
+ 
+ set_up_logging()
+ b = blivet.Blivet()   # create an instance of Blivet (don't add system devices)
+diff --git a/examples/lvm_non_linear.py b/examples/lvm_non_linear.py
+index 08a484ce..72aa8a09 100644
+--- a/examples/lvm_non_linear.py
++++ b/examples/lvm_non_linear.py
+@@ -1,8 +1,8 @@
+ import os
+ 
+-import blivet
+-from blivet.size import Size
+-from blivet.util import set_up_logging, create_sparse_tempfile
++import blivet3
++from blivet3.size import Size
++from blivet3.util import set_up_logging, create_sparse_tempfile
+ 
+ set_up_logging()
+ b = blivet.Blivet()   # create an instance of Blivet (don't add system devices)
+diff --git a/examples/partitioning.py b/examples/partitioning.py
+index ee53fa83..4174b2ea 100644
+--- a/examples/partitioning.py
++++ b/examples/partitioning.py
+@@ -1,8 +1,8 @@
+ import os
+ 
+-import blivet
+-from blivet.size import Size
+-from blivet.util import set_up_logging, create_sparse_tempfile
++import blivet3
++from blivet3.size import Size
++from blivet3.util import set_up_logging, create_sparse_tempfile
+ 
+ set_up_logging()
+ b = blivet.Blivet()   # create an instance of Blivet (don't add system devices)
+diff --git a/examples/uevents.py b/examples/uevents.py
+index f9f4f668..31edea8e 100644
+--- a/examples/uevents.py
++++ b/examples/uevents.py
+@@ -1,8 +1,8 @@
+ import time
+ 
+-import blivet
+-from blivet.events.manager import event_manager
+-from blivet.util import set_up_logging
++import blivet3
++from blivet3.events.manager import event_manager
++from blivet3.util import set_up_logging
+ 
+ 
+ def print_changes(event, changes):
+@@ -13,7 +13,7 @@ def print_changes(event, changes):
+     print()
+ 
+ 
+-set_up_logging(console_logs=["blivet.event"])
++set_up_logging(console_logs=["blivet3.event"])
+ b = blivet.Blivet()  # create an instance of Blivet
+ b.reset()  # detect system storage configuration
+ print(b.devicetree)
+-- 
+2.17.2
+

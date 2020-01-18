@@ -1,0 +1,926 @@
+From d300f82f76f8a01a49c406b3549edbb7d799c8e2 Mon Sep 17 00:00:00 2001
+From: David Lehman <dlehman@redhat.com>
+Date: Mon, 25 Mar 2019 14:42:08 -0400
+Subject: [PATCH 6/8] Update logging facility to match new package name.
+
+---
+ blivet3/__init__.py                          | 2 +-
+ blivet3/actionlist.py                        | 2 +-
+ blivet3/arch.py                              | 2 +-
+ blivet3/blivet.py                            | 2 +-
+ blivet3/deviceaction.py                      | 2 +-
+ blivet3/devicefactory.py                     | 2 +-
+ blivet3/devicelibs/btrfs.py                  | 2 +-
+ blivet3/devicelibs/crypto.py                 | 2 +-
+ blivet3/devicelibs/edd.py                    | 2 +-
+ blivet3/devicelibs/lvm.py                    | 2 +-
+ blivet3/devicelibs/mdraid.py                 | 2 +-
+ blivet3/devices/btrfs.py                     | 2 +-
+ blivet3/devices/container.py                 | 2 +-
+ blivet3/devices/device.py                    | 2 +-
+ blivet3/devices/disk.py                      | 2 +-
+ blivet3/devices/dm.py                        | 2 +-
+ blivet3/devices/file.py                      | 2 +-
+ blivet3/devices/loop.py                      | 2 +-
+ blivet3/devices/luks.py                      | 2 +-
+ blivet3/devices/lvm.py                       | 2 +-
+ blivet3/devices/md.py                        | 2 +-
+ blivet3/devices/nfs.py                       | 2 +-
+ blivet3/devices/nodev.py                     | 2 +-
+ blivet3/devices/optical.py                   | 2 +-
+ blivet3/devices/partition.py                 | 2 +-
+ blivet3/devices/storage.py                   | 4 ++--
+ blivet3/devicetree.py                        | 2 +-
+ blivet3/events/handler.py                    | 4 ++--
+ blivet3/events/manager.py                    | 2 +-
+ blivet3/fcoe.py                              | 2 +-
+ blivet3/formats/__init__.py                  | 2 +-
+ blivet3/formats/disklabel.py                 | 2 +-
+ blivet3/formats/dmraid.py                    | 2 +-
+ blivet3/formats/fs.py                        | 2 +-
+ blivet3/formats/luks.py                      | 2 +-
+ blivet3/formats/lvmpv.py                     | 2 +-
+ blivet3/formats/mdraid.py                    | 2 +-
+ blivet3/formats/multipath.py                 | 2 +-
+ blivet3/formats/prepboot.py                  | 2 +-
+ blivet3/formats/swap.py                      | 2 +-
+ blivet3/iscsi.py                             | 2 +-
+ blivet3/mounts.py                            | 2 +-
+ blivet3/partitioning.py                      | 2 +-
+ blivet3/populator/helpers/btrfs.py           | 2 +-
+ blivet3/populator/helpers/disk.py            | 2 +-
+ blivet3/populator/helpers/disklabel.py       | 2 +-
+ blivet3/populator/helpers/dm.py              | 2 +-
+ blivet3/populator/helpers/dmraid.py          | 2 +-
+ blivet3/populator/helpers/formatpopulator.py | 2 +-
+ blivet3/populator/helpers/luks.py            | 2 +-
+ blivet3/populator/helpers/lvm.py             | 2 +-
+ blivet3/populator/helpers/mdraid.py          | 2 +-
+ blivet3/populator/helpers/multipath.py       | 2 +-
+ blivet3/populator/helpers/partition.py       | 2 +-
+ blivet3/populator/populator.py               | 2 +-
+ blivet3/static_data/lvm_info.py              | 2 +-
+ blivet3/static_data/mpath_info.py            | 2 +-
+ blivet3/static_data/nvdimm.py                | 2 +-
+ blivet3/storage_log.py                       | 2 +-
+ blivet3/tasks/availability.py                | 2 +-
+ blivet3/udev.py                              | 2 +-
+ blivet3/util.py                              | 8 ++++----
+ blivet3/zfcp.py                              | 2 +-
+ 63 files changed, 68 insertions(+), 68 deletions(-)
+
+diff --git a/blivet3/__init__.py b/blivet3/__init__.py
+index 902d3df9..eef67eb0 100644
+--- a/blivet3/__init__.py
++++ b/blivet3/__init__.py
+@@ -30,7 +30,7 @@ import syslog
+ from . import util, arch
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ program_log = logging.getLogger("program")
+ testdata_log = logging.getLogger("testdata")
+ 
+diff --git a/blivet3/actionlist.py b/blivet3/actionlist.py
+index d03e32b9..89a7007e 100644
+--- a/blivet3/actionlist.py
++++ b/blivet3/actionlist.py
+@@ -35,7 +35,7 @@ from . import tsort
+ from .threads import blivet_lock, SynchronizedMeta
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ 
+ def with_flag(flag_attr):
+diff --git a/blivet3/arch.py b/blivet3/arch.py
+index 55ce8108..9645ba06 100644
+--- a/blivet3/arch.py
++++ b/blivet3/arch.py
+@@ -36,7 +36,7 @@ import os
+ from .storage_log import log_exception_info
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ # DMI information paths
+ DMI_CHASSIS_VENDOR = "/sys/class/dmi/id/chassis_vendor"
+diff --git a/blivet3/blivet.py b/blivet3/blivet.py
+index 8128347f..b1c42eff 100644
+--- a/blivet3/blivet.py
++++ b/blivet3/blivet.py
+@@ -49,7 +49,7 @@ from .threads import SynchronizedMeta
+ from .static_data import luks_data
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ 
+ @six.add_metaclass(SynchronizedMeta)
+diff --git a/blivet3/deviceaction.py b/blivet3/deviceaction.py
+index 14a06ff0..0b50dfca 100644
+--- a/blivet3/deviceaction.py
++++ b/blivet3/deviceaction.py
+@@ -39,7 +39,7 @@ from .threads import SynchronizedMeta
+ from .static_data import luks_data
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ # The values are just hints as to the ordering.
+ # Eg: fsmod and devmod ordering depends on the mod (shrink -v- grow)
+diff --git a/blivet3/devicefactory.py b/blivet3/devicefactory.py
+index a15b60c9..76a48423 100644
+--- a/blivet3/devicefactory.py
++++ b/blivet3/devicefactory.py
+@@ -46,7 +46,7 @@ gi.require_version("BlockDev", "2.0")
+ from gi.repository import BlockDev as blockdev
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ # policy value of >0 is a fixed size request
+ SIZE_POLICY_MAX = -1
+diff --git a/blivet3/devicelibs/btrfs.py b/blivet3/devicelibs/btrfs.py
+index b70dae28..00aa7669 100644
+--- a/blivet3/devicelibs/btrfs.py
++++ b/blivet3/devicelibs/btrfs.py
+@@ -25,7 +25,7 @@ from ..size import Size
+ from ..tasks import availability
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ # this is the volume id btrfs always assigns to the top-level volume/tree
+ MAIN_VOLUME_ID = 5
+diff --git a/blivet3/devicelibs/crypto.py b/blivet3/devicelibs/crypto.py
+index 897dd9a8..0156be84 100644
+--- a/blivet3/devicelibs/crypto.py
++++ b/blivet3/devicelibs/crypto.py
+@@ -30,7 +30,7 @@ from ..tasks import availability
+ from ..util import total_memory, available_memory
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ LUKS_METADATA_SIZE = Size("2 MiB")
+ MIN_CREATE_ENTROPY = 256  # bits
+diff --git a/blivet3/devicelibs/edd.py b/blivet3/devicelibs/edd.py
+index d099b202..2bed1950 100644
+--- a/blivet3/devicelibs/edd.py
++++ b/blivet3/devicelibs/edd.py
+@@ -31,7 +31,7 @@ import copy
+ 
+ from .. import util
+ 
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ testdata_log = logging.getLogger("testdata")
+ testdata_log.setLevel(logging.DEBUG)
+ 
+diff --git a/blivet3/devicelibs/lvm.py b/blivet3/devicelibs/lvm.py
+index 0295332e..3b812edf 100644
+--- a/blivet3/devicelibs/lvm.py
++++ b/blivet3/devicelibs/lvm.py
+@@ -32,7 +32,7 @@ gi.require_version("BlockDev", "2.0")
+ from gi.repository import BlockDev as blockdev
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ from . import raid
+ from ..size import Size
+diff --git a/blivet3/devicelibs/mdraid.py b/blivet3/devicelibs/mdraid.py
+index 8b16105b..e64f8cdb 100644
+--- a/blivet3/devicelibs/mdraid.py
++++ b/blivet3/devicelibs/mdraid.py
+@@ -25,7 +25,7 @@ from . import raid
+ from ..tasks import availability
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ # these defaults were determined empirically
+ MD_SUPERBLOCK_SIZE = Size("2 MiB")
+diff --git a/blivet3/devices/btrfs.py b/blivet3/devices/btrfs.py
+index edb82478..4182de76 100644
+--- a/blivet3/devices/btrfs.py
++++ b/blivet3/devices/btrfs.py
+@@ -40,7 +40,7 @@ from ..formats import get_format, DeviceFormat
+ from ..size import Size
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ from .storage import StorageDevice
+ from .container import ContainerDevice
+diff --git a/blivet3/devices/container.py b/blivet3/devices/container.py
+index a54d5bae..8c8106e9 100644
+--- a/blivet3/devices/container.py
++++ b/blivet3/devices/container.py
+@@ -29,7 +29,7 @@ from ..formats import get_device_format_class
+ from ..threads import SynchronizedABCMeta
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ from .storage import StorageDevice
+ 
+diff --git a/blivet3/devices/device.py b/blivet3/devices/device.py
+index 392cb77c..26519c7f 100644
+--- a/blivet3/devices/device.py
++++ b/blivet3/devices/device.py
+@@ -28,7 +28,7 @@ from ..storage_log import log_method_call
+ from ..threads import SynchronizedMeta
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ from .lib import ParentList
+ 
+diff --git a/blivet3/devices/disk.py b/blivet3/devices/disk.py
+index 30611195..919d207d 100644
+--- a/blivet3/devices/disk.py
++++ b/blivet3/devices/disk.py
+@@ -39,7 +39,7 @@ from ..tasks import availability
+ from ..fcoe import fcoe
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ from .lib import Tags
+ from .storage import StorageDevice
+diff --git a/blivet3/devices/dm.py b/blivet3/devices/dm.py
+index 508a6f89..45e011d6 100644
+--- a/blivet3/devices/dm.py
++++ b/blivet3/devices/dm.py
+@@ -34,7 +34,7 @@ from .. import udev
+ from ..tasks import availability
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ from .storage import StorageDevice
+ from .lib import LINUX_SECTOR_SIZE, get_majors_by_device_type
+diff --git a/blivet3/devices/file.py b/blivet3/devices/file.py
+index fa3dfb8a..b45ad0dd 100644
+--- a/blivet3/devices/file.py
++++ b/blivet3/devices/file.py
+@@ -28,7 +28,7 @@ from ..storage_log import log_method_call
+ from ..size import Size
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ from .storage import StorageDevice
+ 
+diff --git a/blivet3/devices/loop.py b/blivet3/devices/loop.py
+index 78f88d7d..688856df 100644
+--- a/blivet3/devices/loop.py
++++ b/blivet3/devices/loop.py
+@@ -31,7 +31,7 @@ from ..storage_log import log_method_call
+ from ..tasks import availability
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ from .storage import StorageDevice
+ 
+diff --git a/blivet3/devices/luks.py b/blivet3/devices/luks.py
+index dff12739..0a4d34ab 100644
+--- a/blivet3/devices/luks.py
++++ b/blivet3/devices/luks.py
+@@ -27,7 +27,7 @@ from ..size import Size
+ from ..tasks import availability
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ from .storage import StorageDevice
+ from .dm import DMCryptDevice, DMIntegrityDevice
+diff --git a/blivet3/devices/lvm.py b/blivet3/devices/lvm.py
+index fa537597..a92063b0 100644
+--- a/blivet3/devices/lvm.py
++++ b/blivet3/devices/lvm.py
+@@ -46,7 +46,7 @@ from ..size import Size, KiB, MiB, ROUND_UP, ROUND_DOWN
+ from ..tasks import availability
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ from .lib import LINUX_SECTOR_SIZE, ParentList
+ from .device import Device
+diff --git a/blivet3/devices/md.py b/blivet3/devices/md.py
+index 6a837df0..5ba8f972 100644
+--- a/blivet3/devices/md.py
++++ b/blivet3/devices/md.py
+@@ -40,7 +40,7 @@ from ..size import Size
+ from ..tasks import availability
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ from .storage import StorageDevice
+ from .container import ContainerDevice
+diff --git a/blivet3/devices/nfs.py b/blivet3/devices/nfs.py
+index a0142f91..81ce8739 100644
+--- a/blivet3/devices/nfs.py
++++ b/blivet3/devices/nfs.py
+@@ -22,7 +22,7 @@
+ from ..storage_log import log_method_call
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ from .storage import StorageDevice
+ from .network import NetworkStorageDevice
+diff --git a/blivet3/devices/nodev.py b/blivet3/devices/nodev.py
+index f1b87392..0fdb5f75 100644
+--- a/blivet3/devices/nodev.py
++++ b/blivet3/devices/nodev.py
+@@ -22,7 +22,7 @@
+ from ..storage_log import log_method_call
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ from ..size import Size
+ from .storage import StorageDevice
+diff --git a/blivet3/devices/optical.py b/blivet3/devices/optical.py
+index b9dba1f2..54d2ad97 100644
+--- a/blivet3/devices/optical.py
++++ b/blivet3/devices/optical.py
+@@ -26,7 +26,7 @@ from .. import util
+ from ..storage_log import log_method_call
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ from .storage import StorageDevice
+ 
+diff --git a/blivet3/devices/partition.py b/blivet3/devices/partition.py
+index 623e1c9d..56f8f5d3 100644
+--- a/blivet3/devices/partition.py
++++ b/blivet3/devices/partition.py
+@@ -38,7 +38,7 @@ from ..formats import DeviceFormat, get_format
+ from ..size import Size, MiB
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ from .device import Device
+ from .storage import StorageDevice
+diff --git a/blivet3/devices/storage.py b/blivet3/devices/storage.py
+index 904b60df..df4e9943 100644
+--- a/blivet3/devices/storage.py
++++ b/blivet3/devices/storage.py
+@@ -34,7 +34,7 @@ from ..formats import get_format, DeviceFormat
+ from ..size import Size
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ from .device import Device
+ from .network import NetworkStorageDevice
+@@ -54,7 +54,7 @@ class StorageDevice(Device):
+     _resizable = False
+     """Whether this type of device is inherently resizable."""
+ 
+-    _type = "blivet"
++    _type = "blivet3"
+     _dev_dir = "/dev"
+     _format_immutable = False
+     _partitionable = False
+diff --git a/blivet3/devicetree.py b/blivet3/devicetree.py
+index d8b98b3b..859ba42e 100644
+--- a/blivet3/devicetree.py
++++ b/blivet3/devicetree.py
+@@ -46,7 +46,7 @@ from .storage_log import log_method_call, log_method_return
+ from .threads import SynchronizedMeta
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ _LVM_DEVICE_CLASSES = (LVMLogicalVolumeDevice, LVMVolumeGroupDevice)
+ 
+diff --git a/blivet3/events/handler.py b/blivet3/events/handler.py
+index f839e8c3..9c98616c 100644
+--- a/blivet3/events/handler.py
++++ b/blivet3/events/handler.py
+@@ -33,8 +33,8 @@ from .changes import data as event_data
+ from .manager import event_manager
+ 
+ import logging
+-log = logging.getLogger("blivet")
+-event_log = logging.getLogger("blivet.event")
++log = logging.getLogger("blivet3")
++event_log = logging.getLogger("blivet3.event")
+ 
+ 
+ @add_metaclass(SynchronizedMeta)
+diff --git a/blivet3/events/manager.py b/blivet3/events/manager.py
+index f81efb8b..8d39abc3 100644
+--- a/blivet3/events/manager.py
++++ b/blivet3/events/manager.py
+@@ -38,7 +38,7 @@ from ..flags import flags
+ from .changes import disable_callbacks, enable_callbacks
+ 
+ import logging
+-event_log = logging.getLogger("blivet.event")
++event_log = logging.getLogger("blivet3.event")
+ 
+ 
+ def validate_cb(cb, kwargs=None, arg_count=None):
+diff --git a/blivet3/fcoe.py b/blivet3/fcoe.py
+index 3a1887dc..d3bc4188 100644
+--- a/blivet3/fcoe.py
++++ b/blivet3/fcoe.py
+@@ -24,7 +24,7 @@ import logging
+ import time
+ import shutil
+ from .i18n import _
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ _fcoe_module_loaded = False
+ 
+diff --git a/blivet3/formats/__init__.py b/blivet3/formats/__init__.py
+index 83ea815d..92e48452 100644
+--- a/blivet3/formats/__init__.py
++++ b/blivet3/formats/__init__.py
+@@ -50,7 +50,7 @@ from ..tasks import fsck
+ from ..tasks import fsminsize
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ device_formats = {}
+ 
+diff --git a/blivet3/formats/disklabel.py b/blivet3/formats/disklabel.py
+index 75867d6a..faaf80a2 100644
+--- a/blivet3/formats/disklabel.py
++++ b/blivet3/formats/disklabel.py
+@@ -40,7 +40,7 @@ from . import DeviceFormat, register_device_format
+ from ..size import Size
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ 
+ class DiskLabel(DeviceFormat):
+diff --git a/blivet3/formats/dmraid.py b/blivet3/formats/dmraid.py
+index 2ba9dcfe..5a49c990 100644
+--- a/blivet3/formats/dmraid.py
++++ b/blivet3/formats/dmraid.py
+@@ -27,7 +27,7 @@ from ..i18n import N_
+ from . import DeviceFormat, register_device_format
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ 
+ class DMRaidMember(DeviceFormat):
+diff --git a/blivet3/formats/fs.py b/blivet3/formats/fs.py
+index d59afabc..085b9e78 100644
+--- a/blivet3/formats/fs.py
++++ b/blivet3/formats/fs.py
+@@ -58,7 +58,7 @@ from ..mounts import mounts_cache
+ from .fslib import kernel_filesystems, update_kernel_filesystems
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ 
+ class FS(DeviceFormat):
+diff --git a/blivet3/formats/luks.py b/blivet3/formats/luks.py
+index e80fd27f..a632bdc5 100644
+--- a/blivet3/formats/luks.py
++++ b/blivet3/formats/luks.py
+@@ -38,7 +38,7 @@ from ..size import Size, KiB
+ from ..static_data import luks_data
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ 
+ class LUKS2PBKDFArgs(object):
+diff --git a/blivet3/formats/lvmpv.py b/blivet3/formats/lvmpv.py
+index e2e8428b..712d6d79 100644
+--- a/blivet3/formats/lvmpv.py
++++ b/blivet3/formats/lvmpv.py
+@@ -39,7 +39,7 @@ from .. import udev
+ from ..static_data.lvm_info import pvs_info
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ 
+ class LVMPhysicalVolume(DeviceFormat):
+diff --git a/blivet3/formats/mdraid.py b/blivet3/formats/mdraid.py
+index 41ddef81..1d7b7a31 100644
+--- a/blivet3/formats/mdraid.py
++++ b/blivet3/formats/mdraid.py
+@@ -33,7 +33,7 @@ from ..i18n import N_
+ from ..tasks import availability
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ 
+ class MDRaidMember(DeviceFormat):
+diff --git a/blivet3/formats/multipath.py b/blivet3/formats/multipath.py
+index 473208f0..4ff5cc4e 100644
+--- a/blivet3/formats/multipath.py
++++ b/blivet3/formats/multipath.py
+@@ -30,7 +30,7 @@ from ..i18n import N_
+ from . import DeviceFormat, register_device_format
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ 
+ class MultipathMember(DeviceFormat):
+diff --git a/blivet3/formats/prepboot.py b/blivet3/formats/prepboot.py
+index 3ba24a77..c37f75e0 100644
+--- a/blivet3/formats/prepboot.py
++++ b/blivet3/formats/prepboot.py
+@@ -27,7 +27,7 @@ from . import DeviceFormat, register_device_format
+ from parted import PARTITION_PREP
+ import os
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ 
+ class PPCPRePBoot(DeviceFormat):
+diff --git a/blivet3/formats/swap.py b/blivet3/formats/swap.py
+index 36b50cb6..980beb62 100644
+--- a/blivet3/formats/swap.py
++++ b/blivet3/formats/swap.py
+@@ -34,7 +34,7 @@ gi.require_version("BlockDev", "2.0")
+ from gi.repository import BlockDev as blockdev
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ 
+ class SwapSpace(DeviceFormat):
+diff --git a/blivet3/iscsi.py b/blivet3/iscsi.py
+index 74432505..53ed457e 100644
+--- a/blivet3/iscsi.py
++++ b/blivet3/iscsi.py
+@@ -37,7 +37,7 @@ gi.require_version("GLib", "2.0")
+ from gi.repository import GLib
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ # Note that stage2 copies all files under /sbin to /usr/sbin
+ ISCSID = ""
+diff --git a/blivet3/mounts.py b/blivet3/mounts.py
+index 015a4fa0..1450c5e7 100644
+--- a/blivet3/mounts.py
++++ b/blivet3/mounts.py
+@@ -25,7 +25,7 @@ from . import util
+ from .devicelibs import btrfs
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ 
+ class _MountinfoCache(object):
+diff --git a/blivet3/partitioning.py b/blivet3/partitioning.py
+index 42817072..d0f4f6e7 100644
+--- a/blivet3/partitioning.py
++++ b/blivet3/partitioning.py
+@@ -37,7 +37,7 @@ from .i18n import _
+ from .util import stringize, unicodeize, compare
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ 
+ def partition_compare(part1, part2):
+diff --git a/blivet3/populator/helpers/btrfs.py b/blivet3/populator/helpers/btrfs.py
+index 787363d4..23dcf114 100644
+--- a/blivet3/populator/helpers/btrfs.py
++++ b/blivet3/populator/helpers/btrfs.py
+@@ -27,7 +27,7 @@ from ...errors import DeviceTreeError
+ from .formatpopulator import FormatPopulator
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ 
+ class BTRFSFormatPopulator(FormatPopulator):
+diff --git a/blivet3/populator/helpers/disk.py b/blivet3/populator/helpers/disk.py
+index 776a7d05..197ab83b 100644
+--- a/blivet3/populator/helpers/disk.py
++++ b/blivet3/populator/helpers/disk.py
+@@ -34,7 +34,7 @@ from ...storage_log import log_method_call
+ from .devicepopulator import DevicePopulator
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ 
+ class DiskDevicePopulator(DevicePopulator):
+diff --git a/blivet3/populator/helpers/disklabel.py b/blivet3/populator/helpers/disklabel.py
+index db10638e..9bc3a9c6 100644
+--- a/blivet3/populator/helpers/disklabel.py
++++ b/blivet3/populator/helpers/disklabel.py
+@@ -30,7 +30,7 @@ from ...storage_log import log_exception_info, log_method_call
+ from .formatpopulator import FormatPopulator
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ 
+ class DiskLabelFormatPopulator(FormatPopulator):
+diff --git a/blivet3/populator/helpers/dm.py b/blivet3/populator/helpers/dm.py
+index 6de8ee81..478510fe 100644
+--- a/blivet3/populator/helpers/dm.py
++++ b/blivet3/populator/helpers/dm.py
+@@ -27,7 +27,7 @@ from ...storage_log import log_method_call
+ from .devicepopulator import DevicePopulator
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ 
+ class DMDevicePopulator(DevicePopulator):
+diff --git a/blivet3/populator/helpers/dmraid.py b/blivet3/populator/helpers/dmraid.py
+index c8cc3a8e..e201af86 100644
+--- a/blivet3/populator/helpers/dmraid.py
++++ b/blivet3/populator/helpers/dmraid.py
+@@ -32,7 +32,7 @@ from ...storage_log import log_method_call
+ from .formatpopulator import FormatPopulator
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ 
+ class DMRaidFormatPopulator(FormatPopulator):
+diff --git a/blivet3/populator/helpers/formatpopulator.py b/blivet3/populator/helpers/formatpopulator.py
+index e9f71650..c86d3ebf 100644
+--- a/blivet3/populator/helpers/formatpopulator.py
++++ b/blivet3/populator/helpers/formatpopulator.py
+@@ -28,7 +28,7 @@ from ...errors import FSError
+ from .populatorhelper import PopulatorHelper
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ 
+ class FormatPopulator(PopulatorHelper):
+diff --git a/blivet3/populator/helpers/luks.py b/blivet3/populator/helpers/luks.py
+index 58106f9e..3cf34778 100644
+--- a/blivet3/populator/helpers/luks.py
++++ b/blivet3/populator/helpers/luks.py
+@@ -34,7 +34,7 @@ from .formatpopulator import FormatPopulator
+ from ...static_data import luks_data
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ 
+ class LUKSDevicePopulator(DevicePopulator):
+diff --git a/blivet3/populator/helpers/lvm.py b/blivet3/populator/helpers/lvm.py
+index 9e79bbc0..4eb95157 100644
+--- a/blivet3/populator/helpers/lvm.py
++++ b/blivet3/populator/helpers/lvm.py
+@@ -39,7 +39,7 @@ from .formatpopulator import FormatPopulator
+ from ...static_data import lvs_info, pvs_info, vgs_info
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ 
+ class LVMDevicePopulator(DevicePopulator):
+diff --git a/blivet3/populator/helpers/mdraid.py b/blivet3/populator/helpers/mdraid.py
+index 76aebf25..ec6b5b20 100644
+--- a/blivet3/populator/helpers/mdraid.py
++++ b/blivet3/populator/helpers/mdraid.py
+@@ -38,7 +38,7 @@ from .devicepopulator import DevicePopulator
+ from .formatpopulator import FormatPopulator
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ 
+ class MDDevicePopulator(DevicePopulator):
+diff --git a/blivet3/populator/helpers/multipath.py b/blivet3/populator/helpers/multipath.py
+index 10c745bf..c1e11606 100644
+--- a/blivet3/populator/helpers/multipath.py
++++ b/blivet3/populator/helpers/multipath.py
+@@ -27,7 +27,7 @@ from .devicepopulator import DevicePopulator
+ from .formatpopulator import FormatPopulator
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ 
+ class MultipathDevicePopulator(DevicePopulator):
+diff --git a/blivet3/populator/helpers/partition.py b/blivet3/populator/helpers/partition.py
+index f00323d1..7c7fe29b 100644
+--- a/blivet3/populator/helpers/partition.py
++++ b/blivet3/populator/helpers/partition.py
+@@ -32,7 +32,7 @@ from ...storage_log import log_method_call
+ from .devicepopulator import DevicePopulator
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ 
+ class PartitionDevicePopulator(DevicePopulator):
+diff --git a/blivet3/populator/populator.py b/blivet3/populator/populator.py
+index cdb5b79f..8fd50e9c 100644
+--- a/blivet3/populator/populator.py
++++ b/blivet3/populator/populator.py
+@@ -50,7 +50,7 @@ from ..static_data import lvs_info, pvs_info, vgs_info, luks_data, mpath_members
+ from ..callbacks import callbacks
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ 
+ def parted_exn_handler(exn_type, exn_options, exn_msg):
+diff --git a/blivet3/static_data/lvm_info.py b/blivet3/static_data/lvm_info.py
+index 42261f9b..1cad7aaa 100644
+--- a/blivet3/static_data/lvm_info.py
++++ b/blivet3/static_data/lvm_info.py
+@@ -26,7 +26,7 @@ gi.require_version("BlockDev", "2.0")
+ from gi.repository import BlockDev as blockdev
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ 
+ class LVsInfo(object):
+diff --git a/blivet3/static_data/mpath_info.py b/blivet3/static_data/mpath_info.py
+index 49ba4709..092e033e 100644
+--- a/blivet3/static_data/mpath_info.py
++++ b/blivet3/static_data/mpath_info.py
+@@ -25,7 +25,7 @@ gi.require_version("BlockDev", "2.0")
+ from gi.repository import BlockDev as blockdev
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ from ..tasks import availability
+ 
+diff --git a/blivet3/static_data/nvdimm.py b/blivet3/static_data/nvdimm.py
+index e0a24bf8..c7a315f6 100644
+--- a/blivet3/static_data/nvdimm.py
++++ b/blivet3/static_data/nvdimm.py
+@@ -26,7 +26,7 @@ from gi.repository import GLib
+ from .. import util
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ 
+ class NVDIMMDependencyGuard(util.DependencyGuard):
+diff --git a/blivet3/storage_log.py b/blivet3/storage_log.py
+index 9e363f1c..bc2e3dc0 100644
+--- a/blivet3/storage_log.py
++++ b/blivet3/storage_log.py
+@@ -5,7 +5,7 @@ import traceback
+ 
+ from .flags import flags
+ 
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ log.addHandler(logging.NullHandler())
+ 
+ 
+diff --git a/blivet3/tasks/availability.py b/blivet3/tasks/availability.py
+index b6b5955a..8ad51a12 100644
+--- a/blivet3/tasks/availability.py
++++ b/blivet3/tasks/availability.py
+@@ -32,7 +32,7 @@ from gi.repository import BlockDev as blockdev
+ from gi.repository import GLib
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ CACHE_AVAILABILITY = True
+ 
+diff --git a/blivet3/udev.py b/blivet3/udev.py
+index 51b69b76..96a199d8 100644
+--- a/blivet3/udev.py
++++ b/blivet3/udev.py
+@@ -37,7 +37,7 @@ gi.require_version("BlockDev", "2.0")
+ from gi.repository import BlockDev as blockdev
+ 
+ global_udev = pyudev.Context()
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ device_name_blacklist = []
+ """ device name regexes to ignore; this should be empty by default """
+diff --git a/blivet3/util.py b/blivet3/util.py
+index 542bc93f..77dc528e 100644
+--- a/blivet3/util.py
++++ b/blivet3/util.py
+@@ -28,10 +28,10 @@ from gi.repository import BlockDev as blockdev
+ import six
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ program_log = logging.getLogger("program")
+ testdata_log = logging.getLogger("testdata")
+-console_log = logging.getLogger("blivet.console")
++console_log = logging.getLogger("blivet3.console")
+ 
+ from threading import Lock
+ # this will get set to anaconda's program_log_lock in enable_installer_mode
+@@ -706,7 +706,7 @@ def dedup_list(alist):
+ ##
+ 
+ 
+-def set_up_logging(log_dir="/tmp", log_prefix="blivet", console_logs=None):
++def set_up_logging(log_dir="/tmp", log_prefix="blivet3", console_logs=None):
+     """ Configure the blivet logger to write out a log file.
+ 
+         :keyword str log_dir: path to directory where log files are
+@@ -763,7 +763,7 @@ def create_sparse_tempfile(name, size):
+         :param :class:`~.size.Size` size: the file size
+         :returns: the path to the newly created file
+     """
+-    (fd, path) = tempfile.mkstemp(prefix="blivet.", suffix="-%s" % name)
++    (fd, path) = tempfile.mkstemp(prefix="blivet3.", suffix="-%s" % name)
+     os.close(fd)
+     create_sparse_file(path, size)
+     return path
+diff --git a/blivet3/zfcp.py b/blivet3/zfcp.py
+index 4e9bbac9..6a6c9736 100644
+--- a/blivet3/zfcp.py
++++ b/blivet3/zfcp.py
+@@ -31,7 +31,7 @@ gi.require_version("BlockDev", "2.0")
+ from gi.repository import BlockDev as blockdev
+ 
+ import logging
+-log = logging.getLogger("blivet")
++log = logging.getLogger("blivet3")
+ 
+ 
+ def logged_write_line_to_file(fn, value):
+-- 
+2.17.2
+

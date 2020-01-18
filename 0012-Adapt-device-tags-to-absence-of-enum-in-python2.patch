@@ -1,0 +1,71 @@
+From ce9c1b55465b261e668951f82532a3bab4077727 Mon Sep 17 00:00:00 2001
+From: David Lehman <dlehman@redhat.com>
+Date: Thu, 28 Mar 2019 17:25:00 -0400
+Subject: [PATCH 14/20] Adapt device tags to absence of enum in python2.
+
+---
+ blivet3/devices/lib.py | 19 +++++++++++++++++--
+ blivet3/devicetree.py  |  2 +-
+ 2 files changed, 18 insertions(+), 3 deletions(-)
+
+diff --git a/blivet3/devices/lib.py b/blivet3/devices/lib.py
+index 11126349..d32c6be2 100644
+--- a/blivet3/devices/lib.py
++++ b/blivet3/devices/lib.py
+@@ -18,8 +18,13 @@
+ #
+ # Red Hat Author(s): David Lehman <dlehman@redhat.com>
+ #
+-from enum import Enum
++try:
++    from enum import Enum
++except ImportError:
++    Enum = None
++
+ import os
++import six
+ 
+ from .. import errors
+ from .. import udev
+@@ -27,7 +32,6 @@ from ..size import Size
+ 
+ LINUX_SECTOR_SIZE = Size(512)
+ 
+-
+ class Tags(str, Enum):
+     """Tags that describe various classes of disk."""
+     local = 'local'
+@@ -37,6 +41,17 @@ class Tags(str, Enum):
+     ssd = 'ssd'
+     usb = 'usb'
+ 
++class Py2Tags(object):
++    __members__ = ('local', 'nvdimm', 'remote', 'removable', 'ssd', 'usb')
++
++    def __getattribute__(self, attr):
++        if attr in Py2Tags.__members__:
++            return attr
++        else:
++            return super(Py2Tags, self).__getattribute__(attr)
++
++if six.PY2:
++    Tags = Py2Tags()
+ 
+ def _collect_device_major_data():
+     by_major = {}
+diff --git a/blivet3/devicetree.py b/blivet3/devicetree.py
+index 859ba42e..8790d2e5 100644
+--- a/blivet3/devicetree.py
++++ b/blivet3/devicetree.py
+@@ -910,7 +910,7 @@ class DeviceTreeBase(object):
+             for tag in tags:
+                 if tag not in Tags.__members__:
+                     raise ValueError("unknown ignoredisk tag '@%s' encountered" % tag)
+-                if Tags(tag) in disk.tags:
++                if tag in disk.tags:
+                     return True
+             return False
+ 
+-- 
+2.20.1
+

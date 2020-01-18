@@ -1,0 +1,22 @@
+From 0e9403bbbe045e02890f516102b0b8d94dd4d122 Mon Sep 17 00:00:00 2001
+From: David Lehman <dlehman@redhat.com>
+Date: Mon, 25 Mar 2019 17:49:59 -0400
+Subject: [PATCH] Don't require python3 for the dbus service.
+
+---
+ dbus/blivetd | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/dbus/blivetd b/dbus/blivetd
+index d9abbcd5..f85099f9 100755
+--- a/dbus/blivetd
++++ b/dbus/blivetd
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/python
+ import dbus
+ import dbus.mainloop.glib
+ from gi.repository import GLib
+-- 
+2.17.2
+

@@ -1,0 +1,89 @@
+From e8a5a6ac10922bfe0243877357641629c2d8360f Mon Sep 17 00:00:00 2001
+From: David Lehman <dlehman@redhat.com>
+Date: Fri, 29 Mar 2019 17:02:51 -0400
+Subject: [PATCH 20/20] Fix bare blivet imports in the examples.
+
+---
+ examples/factory.py        | 2 +-
+ examples/lvm.py            | 2 +-
+ examples/lvm_cache.py      | 2 +-
+ examples/lvm_non_linear.py | 2 +-
+ examples/partitioning.py   | 2 +-
+ examples/uevents.py        | 2 +-
+ 6 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/examples/factory.py b/examples/factory.py
+index 471ad30f..4ecd83c7 100644
+--- a/examples/factory.py
++++ b/examples/factory.py
+@@ -1,6 +1,6 @@
+ import os
+ 
+-import blivet3
++import blivet3 as blivet
+ from blivet3.size import Size
+ from blivet3.util import set_up_logging, create_sparse_tempfile
+ 
+diff --git a/examples/lvm.py b/examples/lvm.py
+index 6f736a44..c2a195b6 100644
+--- a/examples/lvm.py
++++ b/examples/lvm.py
+@@ -1,6 +1,6 @@
+ import os
+ 
+-import blivet3
++import blivet3 as blivet
+ from blivet3.size import Size
+ from blivet3.util import set_up_logging, create_sparse_tempfile
+ 
+diff --git a/examples/lvm_cache.py b/examples/lvm_cache.py
+index 5f1d71ea..33dbd148 100644
+--- a/examples/lvm_cache.py
++++ b/examples/lvm_cache.py
+@@ -1,6 +1,6 @@
+ import os
+ 
+-import blivet3
++import blivet3 as blivet
+ from blivet3.size import Size
+ from blivet3.util import set_up_logging, create_sparse_tempfile
+ from blivet3.devices.lvm import LVMCacheRequest
+diff --git a/examples/lvm_non_linear.py b/examples/lvm_non_linear.py
+index 72aa8a09..cd20ca78 100644
+--- a/examples/lvm_non_linear.py
++++ b/examples/lvm_non_linear.py
+@@ -1,6 +1,6 @@
+ import os
+ 
+-import blivet3
++import blivet3 as blivet
+ from blivet3.size import Size
+ from blivet3.util import set_up_logging, create_sparse_tempfile
+ 
+diff --git a/examples/partitioning.py b/examples/partitioning.py
+index 4174b2ea..00a7f6f8 100644
+--- a/examples/partitioning.py
++++ b/examples/partitioning.py
+@@ -1,6 +1,6 @@
+ import os
+ 
+-import blivet3
++import blivet3 as blivet
+ from blivet3.size import Size
+ from blivet3.util import set_up_logging, create_sparse_tempfile
+ 
+diff --git a/examples/uevents.py b/examples/uevents.py
+index 31edea8e..b1595dbf 100644
+--- a/examples/uevents.py
++++ b/examples/uevents.py
+@@ -1,6 +1,6 @@
+ import time
+ 
+-import blivet3
++import blivet3 as blivet
+ from blivet3.events.manager import event_manager
+ from blivet3.util import set_up_logging
+ 
+-- 
+2.20.1
+
